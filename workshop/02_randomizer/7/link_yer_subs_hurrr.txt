@@ -1,0 +1,8 @@
+SUBMODULE NAMING CONVENTION
+
+LastF-LastF
+
+* List partners in alphamagical order
+* Remember you can name your git repo whatever you like; this naming convention need only apply to your submodule link name.
+* forgot how? goo.gl/Qwcpx8
+
