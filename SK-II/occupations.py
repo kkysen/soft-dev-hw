@@ -93,15 +93,14 @@ class Occupations(object):
         assert Occupations.in_united_states().is_randomly_weighted(sample_size, debug), error_msg
 
 
-def main(sample_size=Occupations.DEFAULT_SAMPLE_SIZE, debug=True):
+def test(sample_size=Occupations.DEFAULT_SAMPLE_SIZE, debug=True):
     # type: (int, bool) -> None
     Occupations.test(sample_size, debug)
 
 
 if __name__ == '__main__':
-    Occupations.UNITED_STATES_FILE = 'occupations.csv'
     million = True
     while True:
         for i in xrange(2, (6 if million else 5) + 1):
-            main(debug=False, sample_size=10 ** i)
+            test(debug=False, sample_size=10 ** i)
         print()
