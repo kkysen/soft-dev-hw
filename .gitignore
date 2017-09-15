@@ -103,4 +103,4 @@ ENV/
 # My Stuff
 .git/
 .gitignore
-workshop/
+.gitmodules
