@@ -9,10 +9,10 @@ HW2 -- NO-body expects the Spanish Inquisition!
 
 from __future__ import print_function
 
-import random
-
 __author__ = 'Khyber Sen'
 __date__ = '2017-09-13'
+
+import random
 
 # type: dict[int, list[str]]
 CLASSES = {
