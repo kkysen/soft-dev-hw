@@ -1,0 +1,31 @@
+.center {
+    display: table;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#occupations-table, th, tr, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
+#occupations-table th {
+    font-weight: bold;
+    font-size: 150%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#occupations-table tr:last-child {
+    text-align: center;
+    font-size: larger;
+}
+
+#occupations-table td:nth-child(2) {
+    text-align: center;
+}
+
+#random-occupation {
+    font-size: x-large;
+}

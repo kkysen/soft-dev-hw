@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="static/occupations.css">
+</head>
+<body>
+<div class="center">
+    <h1>{{ title }}</h1>
+</div>
+<div class="center">
+    <p id="random-occupation">
+        Your Chosen Occupation:
+        {% if random_occupation.link %}
+            <a href="{{ random_occupation.link }}" target="_blank">{{ random_occupation.name }}</a>
+        {% else %}
+            {{ random_occupation.name }}
+        {% endif %}
+    </p>
+</div>
+<hr>
+<div class="center">
+    <h2>Occupations Distribution</h2>
+</div>
+<div class="center">
+    <table id="occupations-table">
+        <tr>
+            <th>Occupation</th>
+            <th>Percent</th>
+        </tr>
+        {% for occupation in occupations.occupations %}
+            <tr>
+                <td>
+                    {% if occupation.link %}
+                        <a href="{{ occupation.link }}" target="_blank">{{ occupation.name }}</a>
+                    {% else %}
+                        {{ occupation.name }}
+                    {% endif %}
+                </td>
+                <td>{{ occupation.percent }}%</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td>Total</td>
+            <td>{{ occupations.total_percent }}%</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
