@@ -2,8 +2,6 @@ from flask import Flask
 from flask import request
 from urllib2 import urlopen
 
-import randomizer
-
 app = Flask(__name__)
 
 
