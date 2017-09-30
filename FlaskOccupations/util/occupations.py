@@ -61,7 +61,7 @@ class Occupations(object):
 
     DEFAULT_SAMPLE_SIZE = 1000000
 
-    UNITED_STATES_FILE = 'occupations.csv'
+    UNITED_STATES_FILE = 'data/occupations.csv'
 
     __UNITED_STATES = None  # lazy
 

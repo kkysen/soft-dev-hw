@@ -11,30 +11,71 @@ __author__ = 'Khyber Sen'
 __date__ = '2017-09-22'
 
 from flask import Flask
+from flask import redirect
 from flask import render_template
+from flask import url_for
 
 try:
     from flask_compress import Compress
 except ImportError:
     import subprocess
+
+    # since flask_compress isnt' installed yet, explicitly install it now
     subprocess.call('pip install flask-compress', shell=True)
     from flask_compress import Compress
 
-from occupations import Occupations
+from util.occupations import Occupations
 
 occupations = Occupations.in_united_states()
 
 app = Flask(__name__)
 
 
+def if_else(first, a, b):
+    """
+    Functional equivalent of conditional expression.
+
+    :param first: True or False
+    :param a: to be returned if first is True
+    :param b: to be returned if first is False
+    :return: a if first else b
+    """
+    # type: (bool, any, any) -> any
+    return a if first else b
+
+
 @app.route('/occupations')
 def render_occupations():
+    """
+    Render the occupations.jinja2 template.
+
+    title: the title of the webpage
+    occupations: the Occupations object
+    chosen_occupation: the randomly-selected Occupation
+    chosen_first: if the chosen_occupation section should appear first in the HTML
+    if_else: shortcut for the lengthy if else statements in jinja templates
+
+    :return: the rendered template
+    """
     # type: () -> str
     return render_template(
         'occupations.jinja2',
         title='US Occupations',
         occupations=occupations,
-        random_occupation=occupations.random_occupation())
+        chosen_occupation=occupations.random_occupation(),
+        chosen_first=True,
+        if_else=if_else,
+    )
+
+
+@app.route('/')
+def home():
+    """
+    Redirect the default route to the occupations route.
+
+    :return: the redirected Response
+    """
+    return redirect(url_for(render_occupations.func_name))
 
 
 if __name__ == '__main__':

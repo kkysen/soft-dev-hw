@@ -6,28 +6,33 @@
     <link rel="stylesheet" type="text/css" href="static/occupations.css">
 </head>
 <body>
+
 <div class="center">
     <h1>{{ title }}</h1>
 </div>
+
+{% set chosen %}
 <div class="center">
-    <p id="random-occupation">
+    <p id="chosen-occupation">
         Your Chosen Occupation:
-        {% if random_occupation.link %}
-            <a href="{{ random_occupation.link }}" target="_blank">{{ random_occupation.name }}</a>
+        {% if chosen_occupation.link %}
+            <a href="{{ chosen_occupation.link }}" target="_blank">{{ chosen_occupation.name }}</a>
         {% else %}
-            {{ random_occupation.name }}
+            {{ chosen_occupation.name }}
         {% endif %}
     </p>
 </div>
-<hr>
+{% endset %}
+
+{% set table %}
 <div class="center">
     <h2>Occupations Distribution</h2>
 </div>
 <div class="center">
     <table id="occupations-table">
         <tr>
-            <th>Occupation</th>
-            <th>Percent</th>
+            <th id="occupation-column">Occupation</th>
+            <th id="percent-column">Percent</th>
         </tr>
         {% for occupation in occupations.occupations %}
             <tr>
@@ -47,5 +52,92 @@
         </tr>
     </table>
 </div>
+{% endset %}
+
+{{ if_else(chosen_first, chosen, table) }}
+<hr>
+{{ if_else(chosen_first, table, chosen) }}
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script>
+    /*
+     * Identity function
+     */
+    function identity(t) {
+        return t;
+    }
+
+    /*
+     * TableSorter closure for the table with the given selector,
+     * sorting only the rows between startRow and endRow.
+     * (endRow doesn't work yet, all the rows at the end are sorted).
+     */
+    function TableSorter(selector, startRow, endRow) {
+        const table = $(selector).find('tbody');
+        const rows = table.find('tr');
+        if (endRow < 0) {
+            endRow = rows.length - endRow; // allow negative indices like in Python
+        }
+
+        /*
+         * Define sort function and bind it to column header, flipping order on every click.
+         */
+        const sortColumn = function(_table, _rows, _selector, _key, _startRow, _endRow) {
+            const table = _table;
+            const rows = _rows;
+            const selector = _selector;
+            const key = _key;
+            const startRow = _startRow;
+            const endRow = _endRow;
+
+            /*
+             * Parse an HTMLTableRowElement first into a string and then parsed by key.
+             */
+            const parse = function(value) {
+                return key($(value).children('td').eq(column).text());
+            };
+
+            let order = 1;
+            /*
+             * Sort the table b/w startRow and endRow with the given key and in order direction.
+             */
+            const sort = function() {
+                rows.slice(startRow, endRow).sort(
+                    function(e1, e2) {
+                        const t1 = parse(e1);
+                        const t2 = parse(e2);
+                        return t1 === t2 ? 0 : t1 < t2 ? -order : order;
+                    }).appendTo(table);
+            };
+
+            const columnHeader = $(selector);
+            const column = $(columnHeader).prevAll().length;
+            /*
+             * Bind the sorting function to the column header, flipping order on every click.
+             */
+            columnHeader.click(function() {
+                sort();
+                order *= -1;
+            });
+
+        };
+
+        // return an object with a single method used for binding columns and their sorting keys
+        return {
+            /*
+             * Sort on the column by the given selector and using the given sorting key.
+             */
+            bindColumn: function(selector, key) {
+                sortColumn(table, rows, selector, key, startRow, endRow);
+            }
+        };
+    }
+
+    const occupationsTable = new TableSorter('#occupations-table', 1, -1);
+    occupationsTable.bindColumn('#occupation-column', identity);
+    occupationsTable.bindColumn('#percent-column', i => parseFloat(i.slice(0, i.length - 1)));
+
+</script>
+
 </body>
 </html>
