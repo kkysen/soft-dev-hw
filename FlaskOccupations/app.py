@@ -11,9 +11,10 @@ __author__ = 'Khyber Sen'
 __date__ = '2017-09-22'
 
 from flask import Flask
-from flask import redirect
 from flask import render_template
-from flask import url_for
+
+# noinspection PyUnresolvedReferences
+import util.flask_utils
 
 try:
     from flask_compress import Compress
@@ -32,6 +33,7 @@ app = Flask(__name__)
 
 
 def if_else(first, a, b):
+    # type: (bool, any, any) -> any
     """
     Functional equivalent of conditional expression.
 
@@ -40,12 +42,13 @@ def if_else(first, a, b):
     :param b: to be returned if first is False
     :return: a if first else b
     """
-    # type: (bool, any, any) -> any
     return a if first else b
 
 
+@app.redirect_from('/')
 @app.route('/occupations')
 def render_occupations():
+    # type: () -> str
     """
     Render the occupations.jinja2 template.
 
@@ -57,7 +60,6 @@ def render_occupations():
 
     :return: the rendered template
     """
-    # type: () -> str
     return render_template(
         'occupations.jinja2',
         title='US Occupations',
@@ -66,16 +68,6 @@ def render_occupations():
         chosen_first=True,
         if_else=if_else,
     )
-
-
-@app.route('/')
-def home():
-    """
-    Redirect the default route to the occupations route.
-
-    :return: the redirected Response
-    """
-    return redirect(url_for(render_occupations.func_name))
 
 
 if __name__ == '__main__':

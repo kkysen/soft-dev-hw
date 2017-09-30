@@ -1,20 +1,16 @@
 from __future__ import print_function
 
-import flask
 from flask import Flask
-from flask import redirect
+from flask import Response
 from flask import render_template
 from flask import request
-from flask import url_for
+
+from util.flask_utils import redirect_url
 
 app = Flask(__name__)
 
 
-def redirect_url(route):
-    # type: (callable) -> flask.Response
-    return redirect(url_for(route.func_name))
-
-
+@app.redirect_from('/')
 @app.route('/login')
 def login():
     # type: () -> str
@@ -23,17 +19,11 @@ def login():
 
 @app.route('/auth', methods=['post'])
 def authorize():
-    # type: () -> flask.Response
+    # type: () -> Response
     form = request.form
     username = form['username']
     password = form['password']
     print(username, password)
-    return redirect_url(login)
-
-
-@app.route('/')
-def home():
-    # type: () -> flask.Response
     return redirect_url(login)
 
 
