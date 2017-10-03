@@ -7,7 +7,7 @@ HW5 -- Jinja Tuning
 2017-09-26
 """
 
-__author__ = 'Khyber Sen'
+__authors__ = ['Khyber Sen', 'Michael Ruvinshteyn']
 __date__ = '2017-09-22'
 
 from flask import Flask
