@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}{% endblock title %}
+    </title>
+    <style>
+        .center {
+            display: table;
+            margin-right: auto;
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body class="center">
+{% block body %}
+{% endblock body %}
+</body>
+</html>

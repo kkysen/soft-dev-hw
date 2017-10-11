@@ -1,7 +1,12 @@
+from collections import Iterable
+
+import flask
 from flask import Flask
 from flask import Response
 from flask import redirect
 from flask import url_for
+
+from default_template_context import get_default_template_context
 
 
 def reroute(route):
@@ -58,3 +63,23 @@ def redirect_from(app, rule, **options):
 # extension method
 Flask.redirect_from = redirect_from
 del redirect_from
+
+_render_template = flask.render_template
+
+OVERRIDE_RENDER_TEMPLATE = False
+
+if OVERRIDE_RENDER_TEMPLATE:
+    def render_template(template_name_or_list, **context):
+        # type: (str | Iterable[str], dict[str, any]) -> Response
+        """
+        Wrap flask.render_template to add default template args.
+
+        :param template_name_or_list: the template name(s)
+        :param context: original context
+        :return: the Response from flask.render_template
+        """
+        return _render_template(template_name_or_list, **get_default_template_context(context))
+
+
+    flask.render_template = render_template
+    del render_template

@@ -1,24 +1,15 @@
-<!DOCTYPE html>
-<html lang="en-US">
-<head>
-    <meta charset="UTF-8">
-    <title>Welcome</title>
-    <style>
-        .center {
-            display: table;
-            margin-right: auto;
-            margin-left: auto;
-        }
-    </style>
-</head>
-<body class="center">
-{{ br(8) }}
-<h1>Welcome {{ username }}!</h1>
-{{ br(2) }}
-<!--suppress HtmlUnknownTarget -->
-<form action="/logout" class="center">
-    <input type="submit" value="Logout">
-</form>
+{% extends "base.jinja2" %}
 
-</body>
-</html>
+{% block title %}
+    Welcome
+{% endblock title %}
+
+{% block body %}
+    {{ br(8) }}
+    <h1>Welcome {{ username }}!</h1>
+    {{ br(2) }}
+    <!--suppress HtmlUnknownTarget -->
+    <form action="/logout" class="center">
+        <input type="submit" value="Logout">
+    </form>
+{% endblock body %}

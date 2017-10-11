@@ -13,6 +13,7 @@ import os
 __author__ = 'Khyber Sen and Jennifer Yu'
 __date__ = '2017-10-06'
 
+
 from flask import Flask
 from flask import Response
 from flask import render_template
@@ -21,23 +22,13 @@ from flask import session
 from werkzeug.datastructures import ImmutableMultiDict
 
 from util.flask_utils import reroute
+from util.template_context import context as ctx
 
 app = Flask(__name__)
 
 USERNAME_KEY = 'username'
 
 users = {'Hello': 'World'}
-
-
-def br(n):
-    # type: (int) -> str
-    """
-    Concisely create many <br> tags.
-
-    :param n: number of <br> to retur
-    :return: n <br> tags
-    """
-    return '<br>' * n
 
 
 @app.redirect_from('/')
@@ -61,7 +52,7 @@ def login():
         return render_template('login.jinja2')
 
 
-@app.route('/auth', methods=['post'])
+@app.route('/auth', methods=['get', 'post'])
 def authorize():
     # type: () -> Response
     """
@@ -75,6 +66,10 @@ def authorize():
     :return: the same login page with an error message or the welcome page
     """
     form = request.form  # type: ImmutableMultiDict
+    print(request.method)
+    if request.method.lower() != 'post' or 'username' not in form or 'password' not in form:
+        return reroute(login)
+
     username = form['username']
     password = form['password']
     if username not in users:
@@ -96,7 +91,7 @@ def welcome():
     if USERNAME_KEY not in session:
         return reroute(login)
     username = session[USERNAME_KEY]
-    return render_template('welcome.jinja2', username=username, br=br)
+    return render_template('welcome.jinja2', username=username, **ctx)
 
 
 @app.route('/logout')
