@@ -13,7 +13,6 @@ import os
 __author__ = 'Khyber Sen and Jennifer Yu'
 __date__ = '2017-10-06'
 
-
 from flask import Flask
 from flask import Response
 from flask import render_template
@@ -21,17 +20,19 @@ from flask import request
 from flask import session
 from werkzeug.datastructures import ImmutableMultiDict
 
-from util.flask_utils import reroute
+from pprint import pprint
+
+from util.flask_utils import reroute_to, preconditions, post_only
 from util.template_context import context as ctx
 
 app = Flask(__name__)
 
 USERNAME_KEY = 'username'
 
-users = {'Hello': 'World'}
+users = {u'Hello': u'World'}
 
 
-@app.redirect_from('/')
+@app.reroute_from('/')
 @app.route('/login')
 def login():
     # type: () -> Response
@@ -46,14 +47,49 @@ def login():
     :return: the login page or the welcome page redirection
     """
     if USERNAME_KEY in session:
-        print(session)
-        return reroute(welcome)
+        return reroute_to(welcome)
     else:
-        return render_template('login.jinja2')
+        return render_template('login.jinja2', **ctx)
+
+
+def valid_account_form():
+    # type: () -> bool
+    return 'username' in request.form and 'password' in request.form
+
+
+def get_account():
+    # type: () -> (str, str)
+    form = request.form  # type: ImmutableMultiDict
+    return form['username'], form['password']
+
+
+@app.route('/signup')
+def signup():
+    return render_template('signup.jinja2', **ctx)
+
+
+@app.route('/add_user', methods=['get', 'post'])
+@preconditions(signup, post_only, valid_account_form)
+def add_user():
+    username, password = get_account()
+    users[username] = password
+    pprint(users)
+    return reroute_to(login)
+
+
+def authenticate(username, password):
+    # type: (str, str) -> str | None
+    """Return None if authenicated or error msg if wrong."""
+    if username not in users:
+        return 'username'
+    if password != users[username]:
+        return 'password'
+    return None
 
 
 @app.route('/auth', methods=['get', 'post'])
-def authorize():
+@preconditions(login, post_only, valid_account_form)
+def auth():
     # type: () -> Response
     """
     Authorize the user's attempted login and redirect them to the welcome page if successful.
@@ -65,22 +101,16 @@ def authorize():
 
     :return: the same login page with an error message or the welcome page
     """
-    form = request.form  # type: ImmutableMultiDict
-    print(request.method)
-    if request.method.lower() != 'post' or 'username' not in form or 'password' not in form:
-        return reroute(login)
-
-    username = form['username']
-    password = form['password']
-    if username not in users:
-        return render_template('login.jinja2', failed='username')
-    if password != users[username]:
-        return render_template('login.jinja2', failed='password')
+    username, password = get_account()
+    error = authenticate(username, password)
+    if error:
+        return render_template('login.jinja2', error=error, **ctx)
     session[USERNAME_KEY] = username
-    return reroute(welcome)
+    return reroute_to(welcome)
 
 
 @app.route('/welcome')
+@preconditions(login, lambda: USERNAME_KEY in session)
 def welcome():
     # type: () -> Response
     """
@@ -88,8 +118,6 @@ def welcome():
 
     :return: the welcome page or the redirected login page
     """
-    if USERNAME_KEY not in session:
-        return reroute(login)
     username = session[USERNAME_KEY]
     return render_template('welcome.jinja2', username=username, **ctx)
 
@@ -103,8 +131,10 @@ def logout():
 
     :return: the original login page
     """
-    del session[USERNAME_KEY]
-    return reroute(login)
+    if USERNAME_KEY in session:
+        del session[USERNAME_KEY]
+
+    return reroute_to(login)
 
 
 if __name__ == '__main__':

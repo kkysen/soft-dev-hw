@@ -1,0 +1,12 @@
+<h2 class="center">
+    {% block form_title %}{% endblock form_title %}
+</h2>
+<form action="{% block action %}{% endblock action %}" method="post">
+    <label for="username">Username: </label>
+    <input type="text" name="username" id="username">
+    {{ br(1) }}
+    <label for="password">Password: </label>
+    <input type="password" name="password" id="password">
+    {{ br(2) }}
+    <input type="submit" class="center">
+</form>
