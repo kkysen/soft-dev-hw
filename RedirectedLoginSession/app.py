@@ -10,7 +10,7 @@ from __future__ import print_function
 
 import os
 
-__author__ = 'Khyber Sen and Jennifer Yu'
+__authors__ = ['Khyber Sen', 'Jennifer Yu']
 __date__ = '2017-10-06'
 
 from flask import Flask

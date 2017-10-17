@@ -13,7 +13,7 @@ class Database(object):
         # type: (str) -> Database
         self.path = path
         self._db = sqlite3.connect(path)
-        self._cursor = self._db.cursor()
+        self.cursor = self._db.cursor()
         self.debug = debug
 
     @staticmethod
@@ -43,12 +43,12 @@ class Database(object):
             )
             if self.debug:
                 print(create_table_query)
-            self._cursor.execute(create_table_query)
+            self.cursor.execute(create_table_query)
             insert_query = 'INSERT INTO {} VALUES ({})'.format(
                 table_name,
                 ', '.join('?' for i in xrange(num_fields))
             )
-            self._cursor.executemany(insert_query, [row for row in reader])
+            self.cursor.executemany(insert_query, [row for row in reader])
         return True
 
     def commit(self):
@@ -70,4 +70,4 @@ class Database(object):
 
 if __name__ == '__main__':
     with Database('test.db') as db:
-        db.add_csv('peeps.csv', types=('TEXT', 'INT', 'INT PRIMARY KEY'))
+        db.add_csv('students.csv', types=('TEXT', 'INT', 'INT PRIMARY KEY'))
