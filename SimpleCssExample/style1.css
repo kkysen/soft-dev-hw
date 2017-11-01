@@ -1,0 +1,32 @@
+body {
+    background-image: url("http://is2.mzstatic.com/image/thumb/Video6/v4/61/16/ce/6116cec2-d2e8-de26-f80d-38a1685d04b8/source/1200x630bb.jpg");
+    color: yellow;
+    align-content: center;
+}
+
+h1 {
+    font-size: 100px;
+    color: goldenrod;
+    font-family: DengXian, serif;
+    text-align: center;
+    border: solid;
+}
+
+h2 {
+    font-size: 50px;
+    color: turquoise;
+}
+
+h3 {
+    font-size: 25px;
+    color: white;
+}
+
+p {
+    color: yellow;
+    padding-top: 16px;
+}
+
+a {
+    color: white;
+}
