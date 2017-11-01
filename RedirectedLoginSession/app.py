@@ -34,7 +34,7 @@ users = {u'Hello': u'World'}
 
 @app.reroute_from('/')
 @app.route('/login')
-def login():
+def login(x):
     # type: () -> Response
     """
     Load the login page or redirect to the welcome page if already logged in.

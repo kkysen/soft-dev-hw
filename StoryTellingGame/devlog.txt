@@ -1,0 +1,164 @@
+Terry Guan, Michael Ruvinshteyn, Khyber Sen, Caleb Smith-Salzberg
+
+
+Story Time
+---------------------
+Da Art of Storytellin'
+
+zone of reflection--
+
+
+/////////// Zone of Reflection \\\\\\\\\\\
+------------------------------------------
+OBSTACLES OVERCOME
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+We were able to overcome some initial tension and everyone played an integral part on the team. 
+
+We had some trouble linking the skeleton of the code with templates to provide the information that is fed to the db and other flask routes.
+
+One part of the project that involved great teamwork and thought was connecting the unedited stories and edited stories to the correct template. We used a form for each story name containing the value of the storyname. This way, when clicked, the /story route uses a db method to check if the selected story has been edited or not, and then renders the matching template.
+
+LESSONS LEARNED
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+A solid plan and assignment of roles is crucial so everyone is on the same page. This is less so the case for an individual assignment,
+but for larger-scale group projects it is vital.
+||||||||||||||||||||||||||||||||||||||||||
+
+
+
+ ______   ______   __   __   __       ______   _______
+/_____/\ /_____/\ /_/\ /_/\ /_/\     /_____/\ /______/\
+\:::_ \ \\::::_\/_\:\ \\ \ \\:\ \    \:::_ \ \\::::__\/__
+ \:\ \ \ \\:\/___/\\:\ \\ \ \\:\ \    \:\ \ \ \\:\ /____/\
+  \:\ \ \ \\::___\/_\:\_/.:\ \\:\ \____\:\ \ \ \\:\\_  _\/
+   \:\/.:| |\:\____/\\ ..::/ / \:\/___/\\:\_\ \ \\:\_\ \ \
+    \____/_/ \_____\/ \___/_(   \_____\/ \_____\/ \_____\/
+==============================================================
+
+
+senK -- 2017-10-21 18:52:27
+Created DB-API wrapper, StoryTellingDatabase, in storytelling_db.py
+    with API methods that will be used in the flask app to query the data.
+    The namedtuples User, Story, and Edit are used to pass their simple data around.
+Created a partial skeleton of routes and functions in app.py
+    just to understand how it would interact with the StoryTellingDatabase.
+
+senK -- 2017-10-22 03:12:00
+Added most of read_or_edit_story and create/add_new_story routes
+    and worked on app.py route skeletons.
+
+senK -- 2017-10-22 03:40:30
+Added edited_story route to handle submission of story edits/creation.
+
+senK -- 2017-10-22 16:34:01
+Added comments for almost all public functions and methods.
+
+ruvinshteynM -- 2017-10-24 13:19:04
+Created minimal versions of base.jinja2 and base_logged.jinja2; started minimal version of home.jinja2
+
+ruvinshteynM -- 2017-10-25 13:18:35
+Added story display to home page, minimal version of homepage completed
+
+senK -- 2017-10-25 14:19:59
+Added JS for automatic and simpler form submission in homepage links.  Probably won't be used, but I'm adding it anyways in case since I already wrote it.
+
+senK -- 2017-10-25 14:22:13
+Fixed a few bugs and rearranged some flask routes that whose design changed.
+
+senK -- 2017-10-25 15:00:26
+Modified read_or_edit_story route to use only storyname from form instead of also requiring story_id, which reflects our changes in home.jinja2.
+
+senK -- 2017-10-25 15:08:18
+Used @bind_args in edited_story reroute to pass args through parameters (really through session but hidden), because it's intent it clearer and it's simpler to user.
+
+guanT -- 2017-10-25 23:17:51
+Edited the README with dependencies, install instructions. Added to app.py auto installing dependencies. Added logout
+
+smith-salzbergC -- 2017-10-25 23:15:26
+Updated README.md to meet specifications for launch instructions as set on the hw server.
+
+ruvinshteynM -- 2017-10-26 13:12:24
+Added login page that facilitates logging in and creating an account -- uses two forms
+
+senK -- 2017-10-26 17:06:11
+Fixed a bug in dict_contains() precondition.
+
+senK -- 2017-10-26 17:26:20
+Switched try: import; except: pip install in app.py to
+    having a requirements.txt file that can install dependencies
+    by running 'pip install -r requirements.txt'.
+
+senK -- 2017-10-26 18:18:25
+Fixed illegal multithreaded access to sqlite connection:
+    Used check_same_thread=False in sqlite3.connect()
+        so that multithreaded access is allowed.
+    However, this is not safe, because multithreaded access can cause races
+        that will crash Python.
+    To avoid this, I added a reentrant lock to the Database.
+        If the with statement is used, like `with unsafe_db as db:`,
+        then everything inside the with statement is safe
+        because the lock is acquired and only that thread can access it.
+        When the with statement is exited, normally or with a return or with an exception,
+        the lock is released.
+        So when using the db object (Database or StoryTellingDatabase) inside a flask route,
+        you must use a with statement to access it safely.
+    I modified all the routes to use the db safely this way.
+
+senK -- 2017-10-26 22:18:02
+Fixed (de)serialization of namedtuples in sessions,
+    which were otherwise serialized as plain tuples
+    by flask.sessions._tag(), simplejson.JSONEncoder.iterencode(),
+    and simplejson.JSONDecoder.object_hook().
+    Now there is a namedtuple factor in namedtuple_factor.py
+        that keeps a global dict of namedtuples (their names mapped to types),
+        and when namedtuples are serialized, their serialized type is included,
+        and when they're deserialized, their serialized type is mapped to
+        the actual type in the global dict, which recreates the original object
+        by calling the constructor on a dict of the fields.
+    This is done by overriding flask.sessions._tag to serialize namedtuples specially,
+        and extending flask.JSONDecoder with an object hook to deserialize namedtuples.
+
+senK -- 2017-10-26 22:45:53
+Fixed bug in StoryTellingDatabase._get_stories() that returned too many stories
+    because the edits.user_id wasn't mapped to users.id
+    and edits.story_id wasn't mapped to stories.id.
+
+senK -- 2017-10-28 16:59:00
+Added mechanism to simulate adding stories in util/story_builder.py.
+
+senK -- 2017-10-28 20:29:26
+Fixed edit_story.jinja2 so that it works.
+
+senK -- 2017-10-28 20:54:02
+Fixed SQL bug in get_unedited_stories.  Now done by subtracting all the edited stories by that user from all the stories using the SQL statement EXCEPT, which does set subtraction.
+
+ruvinshteynM -- 2017-10-29 18:39:00
+Facilitated creation of stories (template for creating a new story added)
+
+senK -- 2017-10-29 20:11:22
+Fixed story_builder.py and added first 100 stories from Project Gutenberg to DB.
+
+ruvinshteynM -- 2017-10-29 20:21:00
+Fixed logout button
+
+senK -- 2017-10-29 23:06:54
+Updated README to reflect new requirements.txt.
+
+senK -- 2017-10-29 23:52:29
+Added builtin accounts (see builtin_accounts.csv and data/authors.txt).
+
+smith-salzbergC -- 2017-10-30 00:5:15
+Dug out bugs, updated design file, created and updated change.txt. Added to reflection zone of devlog.
+
+senK -- 2017-10-30 00:43:27
+Login, auth, and signup all reroute to home if logged in.
+
+senK -- 2017-10-30 00:44:01
+Added titles to all the pages.
+
+senK -- 2017-10-30 00:44:38
+Added logout button to welcome page if you're logged in.
+
+senK -- 2017-10-30 01:33:40
+Fixed flashing system, which was corrupted by accidentally overriding the default JSON deserialization for session instead of also calling the super method (it was poorly documented though).
+

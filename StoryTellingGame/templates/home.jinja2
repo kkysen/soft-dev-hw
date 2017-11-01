@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends "logged_in_base.jinja2" %}
+
+{% block title %}Home - Story Time{% endblock title %}
+
+{% block body %}
+
+{% include "flashes.jinja2" %}
+
+    <h1>Welcome {{ user.username }}!</h1> {{ br(2) }}
+	
+	<!--suppress HtmlUnknownTarget -->
+    <a href="/create_new_story" style="font-size: 32px">Create a new story</a> {{ br(2) }}
+
+    <h2>Edited Stories:</h2><br>
+    <!--suppress HtmlUnknownTarget -->
+    <form action="/story" method="post">
+        {% for story in edited_stories %}
+            <button name="story" value="{{ story.storyname }}">
+                {{ story.storyname }}
+            </button>
+            {{ br(2) }}
+        {% endfor %}
+
+        {{ br(4) }}
+
+        <h2>Unedited Stories:</h2><br>
+        {% for story in unedited_stories %}
+            <button name="story" value="{{ story.storyname }}">
+                {{ story.storyname }}
+            </button>
+            {{ br(2) }}
+        {% endfor %}
+    </form>
+
+
+{% endblock body %}
