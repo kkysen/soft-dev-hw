@@ -2,6 +2,7 @@ from __future__ import print_function
 
 from collections import Counter
 
+
 def filter_me(fn):
     # type: (str) -> None
     s = ''.join(line.strip('.') for line in open(fn) if 'khyber' not in line and 'sen' not in line)
