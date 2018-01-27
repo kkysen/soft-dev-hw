@@ -2,7 +2,7 @@ from typing import Type, Callable, Any, Dict, Tuple, Union
 
 from util.flask_utils_types import Function
 
-T = Type['T']  # class type
+T = Type['CtorArgs']  # class type
 R = Type['R']  # return type
 Extender = Union[Callable[[T, Any], R], callable]
 Overrider = Union[Callable[[Callable[[Any], R], T, Any], R], callable]

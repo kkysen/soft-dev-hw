@@ -1,0 +1,135 @@
+html {
+    zoom: 100%;
+}
+
+.header-text .hidden-xs {
+    position: absolute;
+    right: 50%;
+}
+
+.header-text {
+    position: absolute;
+    top: 20%;
+    left: 1.8%;
+    right: auto;
+    width: 96.66666666666666%;
+    color: #fff;
+    font-size: 3em;
+}
+
+.header-text h1 {
+    display: block;
+    color: white;
+    font-size: 2em;
+}
+
+.panel {
+    border: none;
+}
+
+.panel {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.panel-body {
+    text-align: left;
+    height: 300px;
+    padding: 0;
+    background-color: white;
+    color: #0C2856;
+    font-size: 2em;
+}
+
+.rest_img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.row {
+    padding: 50px;
+}
+
+h1 {
+    font-size: 4em;
+    color: #0C2856
+}
+
+.panel:hover {
+    margin-top: -20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 2px;
+    transition: 0.5s;
+}
+
+.panel-default .klass .image-holder {
+    position: absolute;
+    top: 30%;
+    left: 0;
+    bottom: 10%;
+    right: 0;
+    max-height: 90vh;
+    max-width: 90vw;
+    margin: 6%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.klass > p {
+    font-size: .5em;
+}
+
+.klass > h1 {
+    font-size: 1em;
+    margin-top: 0;
+    display: block;
+    text-align: center;
+    background-color: #DAF7A6;
+    padding: 8px;
+}
+
+
+div#welpcarousel.carousel.slide div#searching {
+    z-index: 25;
+    position: absolute;
+    top: 55%;
+    left: 33%;
+    font-size: 2em;
+    display: inline-block;
+
+}
+
+
+form {
+    height: 50px;
+}
+
+input {
+    height: 40px;
+}
+
+button#moreRestaurants{
+position: relative;
+bottom : 1%;
+font-size: 2.3em !important;
+border: none;
+
+}
+
+.btn-warning {
+    height: 50px;
+    z-index: 25;
+    background-color: #eea236;
+    border-radius: 4px;
+}
+
+.btn-primary {
+    height: 40px !important;
+    z-index: 25 !important;
+    font-size: .8em !important;
+    border-radius: 0;
+    border-color: #70A7D8;
+    background-color: #70A7D8;
+    margin: .3%
+}
+
+

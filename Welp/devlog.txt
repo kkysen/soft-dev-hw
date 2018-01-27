@@ -1,0 +1,1002 @@
+tenaciousTurtles - moiT, ionkinaK, liuL, senK
+
+      ___
+ ,,  // \\
+(_,\/ \_/ \
+  \ \_/_\_/>
+  /_/  /_/
+ ______   ______   __   __   __       ______   _______
+/_____/\ /_____/\ /_/\ /_/\ /_/\     /_____/\ /______/\
+\:::_ \ \\::::_\/_\:\ \\ \ \\:\ \    \:::_ \ \\::::__\/__
+ \:\ \ \ \\:\/___/\\:\ \\ \ \\:\ \    \:\ \ \ \\:\ /____/\
+  \:\ \ \ \\::___\/_\:\_/.:\ \\:\ \____\:\ \ \ \\:\\_  _\/
+   \:\/.:| |\:\____/\\ ..::/ / \:\/___/\\:\_\ \ \\:\_\ \ \
+    \____/_/ \_____\/ \___/_(   \_____\/ \_____\/ \_____\/
+
+=======================================================
+tiffanyM -- 2017-12-14 13:14
+-----------------------
+Filled out team registration form
+
+=======================================================
+tiffanyM, karinaI, leoL, khyberS -- 2017-12-15 13:00
+-----------------------
+Discussed project idea:
+
+WELP
+- APIs: Zomato (restaurants, address)
+- Freegeoip or JS for finding customer location
+- If we have time, integrate autrocomplete search from Nutritionix
+
+=======================================================
+tiffanyM, karinaI, leoL, khyberS -- 2017-12-18 12:57
+
+Worked on presentation and split up talking points
+
+=======================================================
+karinaI, leoL -- 2017-12-19 13:03
+
+Presented design pitch
+Feedback:
+- Checkup on validity of FreeGeoIP
+- Try Google Maps?
+
+=======================================================
+tiffanyM, karinaI, leoL, khyberS -- 2017-12-20 13:06
+
+Refined location finding
+- Use JS to find zipcode if the user has GPS
+- If not, use Freegeoip to get the IP address to get zipcode
+- If the IP address is inaccurate, use user input
+
+=======================================================
+tiffanyM, leoL -- 2017-12-21 13:12
+
+Worked on the component map and integrated AJAX
+
+=======================================================
+karinaI, khyberS -- 2017-12-21 13:12
+
+Worked on the site map and design doc
+
+=======================================================
+karinaI -- 2017-12-25 23:17
+
+-worked on app.py and layout.html
+-Worked on navbar
+
+=======================================================
+karinaI -- 2017-12-26 2:32
+
+-Finished layout.html
+-Added logo to navbar
+-Worked on login and create account pages
+
+=======================================================
+karinaI -- 2017-12-26 22:29
+
+-Improved index.html by adding an image slider and 
+changing the logo
+
+=======================================================
+tiffanyM -- 2018-01-02 13:15
+
+-Added freegeoip.py
+-Can look up user's zip code
+
+=======================================================
+karinaI -- 2018-01-02 21:01
+
+-Adjust text form on index.html (user can now type
+over the image)
+-Added text to each carousel slide
+-Updated images
+
+=======================================================
+liuY -- 2018-01-03 13:17
+
+-Work on database
+  -accounts table completed
+  -reviews table now accepts new reviews
+
+=======================================================
+tiffanyM -- 2018-01-03 13:20
+
+-Found tags to scrape from for zomato suggested restaurants
+
+=======================================================
+karinaI -- 2018-01-03 13:21
+
+-Added js function to prevent carousel from moving
+when the user is typing.
+
+=======================================================
+tiffanyM -- 2018-01-03 15:58
+
+-Added hashed passwords
+-Fixed authenticate() and create_account() to flash errors and redirect pages
+-Fixed login and create account forms
+-Added logout function in app.py
+-Added sessions
+-Moved database and cleaned up repo
+
+=======================================================
+liuY -- 2018-01-04 15:50
+
+-Finished functions regarding adding and getting reviews
+-Added docstrings to functions whose usage is not apparent by signature
+
+=======================================================
+karinaI -- 2018-01-04 20:09
+
+-Added responsive panels that will contain recommended
+restaurants in the user's city.
+
+=======================================================
+khyberS -- 2018-01-05 02:47:52
+
+Wrote most of the front-end JS to load restaurants
+    from Zomato,
+        incl. their reviews and ratings,
+        using CORS-enabled AJAX calls for lower latency
+        (no page refresh or double AJAX call,
+        server to API and server to browser).
+    It can use either GPS if hardware-permitting and user-allowed,
+        zipcode if use enters it,
+        or IP address as a default.
+    It makes heavy use of Promises to handle asynchronous AJAX calls.
+    It exports a Promise<{latitude, longitude}> getLocation() function,
+        which returns a Promise of the current location,
+        using GPS is able, allowed, and not explicitly disabled
+            (using getLocation.dontUseGps()).
+        or using the IP address,
+            which uses FreeGeoIP,
+            which willl always work if connected to the Internet.
+    It exports a newRestaurants() constructor,
+        which makes a "Restaurants" object,
+        which contains the method:
+            Promise<RestaurantL3> next(),
+                which returns a Promise to the next RestaurantL3
+                    (as specified by the Zomato API)
+                sorted by distance
+                and using the current location and a set radius
+                until all the restaurants are exhausted,
+                in which case the radius is increased
+                and a new search API call is made to Zomato.
+        and the method:
+            Promise<bool> addNextTo(
+                    HTMLElement parent,
+                    BiConsumer<HTMLDivElement, RestaurantL3> restaurantToDiv),
+                which appends a new HTMLDivElement to parent
+                and fills that new div element using
+                the next() restaurant
+                and the supplied restaurantToDiv function.
+    It's not completely tested, however,
+        and the element IDs for the buttons, restaurantList, and zipcode field
+        are not encoded correctly yet.
+
+=======================================================
+khyberS -- 2018-01-07 18:52:47
+
+Fixed all the bugs in my JS code for getting restaurant data.
+Now all we need to do is finish the function to get latitude and longitude
+    from a zipcode (see zipCodeLocation(zipCode) on line 476),
+    and finish restaurantToDiv(div, restaurant) on line 505,
+    so that it makes the restaurant data look nicer.
+
+=======================================================
+khyberS -- 2018-01-07 20:08:39
+
+Cleaned up index.html and refacted CSS into welp.css and JS in welp.js.
+
+=======================================================
+khyberS -- 2018-01-07 20:18:03
+
+Factored out CSS for other HTML files and cleaned them up a little.
+
+=======================================================
+khyberS -- 2018-01-08 00:13:36
+
+Moved zipcode box outside of carousel to make things much simpler.
+Ideally, we would have the zipcode box on top of the carousel,
+but not a part of it.
+
+Fixed welp.js so that it adds the 20 first (closest) restaurants
+in a similar style to the placeholder restaurants we had before,
+showing the name, rating, and picture
+(a lot of restaurants don't have any picture).
+
+There's also a More Restaurants button that
+adds the next restaurant to the list/row.
+
+=======================================================
+khyberS -- 2018-01-08 11:24:57
+
+Cleaned up app.py and used my util stuff
+from previous projects to make it more secure.
+
+=======================================================
+khyberS -- 2018-01-08 15:06:54
+
+Fixed all the DB accesses in database.py susceptible to SQL injection.
+
+Wrapped db = sqlite3.connect() calls in with statements,
+so that db.close() is always called on exceptions and returns.
+
+=======================================================
+khyberS -- 2018-01-08 15:11:21
+
+Implemented zipCodeLocation(zipCode) in welp.js
+using the Google Maps Geocoding API.
+
+=======================================================
+khyberS -- 2018-01-08 15:23:41
+
+Changed STRING columns to TEXT in setup_db.py.
+
+Deleted freegeoip.py since it's implemented in used in welp.js.
+
+Added requirements.txt with dependencies that can be installed
+by running pip install -r requirements.txt.
+
+=======================================================
+khyberS -- 2018-01-08 15:37:16
+
+Refactored welp.js:
+
+    Moved newRestaurantCol(), newRestaurantRow(), and newRestaurantList()
+    to a new RestaurantListModule() that returns only newRestaurantList().
+
+    Moved zipCodeLocation() to LocationModule(), where it's returned.
+
+=======================================================
+
+karinaI -- 2018-01-08 22:51
+
+- Read through Khyber's JS to adapt to new changes
+- Attempted to resize the images with JS
+- Notes/Observations:
+  * div > p selects all <p> elements where <div> is the
+  parent element.
+  * div + p selectes all <p> elements directly after <div>
+  * Element.classList: DOMTokenList of the element's class
+  attribute (uses .add() and .remove())
+  * className accessor/ mutator for class
+- Tried changing img const to var to make it not read only.
+I thought that would make classList or className work, but
+it was to no avail
+
+lots of experimenting later, the question lingers:
+  * Why doesn't img.className = "rest_img" work
+  in the js fxn?
+  * How can class.List.add be used in the restaurantToDiv
+  fxn?
+
+2018-01-09
+Mystery solved: my cache was the culprit >:( 
+Note for future: use hard refresh!
+
+
+- Created a template for restaurant info pages:
+information.html
+  * added panel for image and information
+  * to do this week: link template and restaurant info
+  using js/jinja
+
+=======================================================
+
+khyberS -- 2018-01-09 11:12:21
+
+Turned off sending the server coordinates for now since I don't think it's useful.
+
+Added a method to newRestaurantList: withEventListeners(listeners),
+which takes an object like {click: function(event) {}} of event listeners
+to add to each restaurant element.
+
+Added a click listener to each restaurant element that opens a new page
+(currently /reviews) using window.open(url),
+sends it the restaurant data by accessing its DOM,
+and loads the reviews for that restaurant from Zomato once the page has loaded.
+
+The /reviews page isn't implemented in Flask yet, so we need to do that.
+The JS will also request reviews for that restaurant from our own database
+that users added on our website.
+
+Set the class of the div element in restaurantToDiv() to make sure it works.
+
+=======================================================
+karinaI -- 2018-01-10 09:50
+
+-Resized panel images by adding restaurant.thumb as a
+background image to the img_div div.
+-Placed the form over the carousel to aesthetically 
+improve the user experience 
+-Improved design of panels
+-to do: do something about the "" img.thumbs.
+
+=======================================================
+karinaI -- 2018-01-10 11:03
+
+-Worked on using ajax to retreive images from Getty
+-These images will be replacements for restaurants
+that have no thumbnails
+-They will be based on the cuisine
+-To do: 
+    * Replace hard-coded phrase parameter with
+cuisines
+    * Work on the callback fxn
+=======================================================
+
+khyberS -- 2018-01-10 12:39:29
+
+Renamed information.html, etc. to restaurant_info.html, etc.
+
+app.py now reads in the Zomato API key from api/secrets.json
+and passes it to index.html,
+where the template adds `const zomatoApiKey = {{zomato_api_key}}`
+in a <script> so that the JS can access it without exposing
+the API key in the source code.
+
+Added the HTTP header Cache-Control: public to the Zomato requests
+so that the browser can cache identical requests
+beyond the lifetime of the webpage.
+
+=======================================================
+khyberS -- 2018-01-10 12:55:18
+
+Rounded coordinates sent to Zomato to 3 decimals
+to take advantage of the browser cache,
+which can cache identical GET requests even from different pages.
+3 decimals is still pretty accurate (to within less than a block),
+but will ensure that if someone doesn't move,
+the request should be cached.
+
+=======================================================
+tiffanyM -- 2018-01-10 16:52
+
+Added functions in database.py to allow user to add and get their 
+favorited restaurants
+
+app.py passes database reviews to the review pages
+
+=======================================================
+khyberS -- 2018-01-11 13:14:59
+
+Fixed the Cache-Control header not allowed error.
+It turns out Cache-Control: public can only be set by the server.
+The client can only prevent caching.
+
+Also, made sure that no infinite loop of request errors happens.
+If there are too many errors, it stops making new requests.
+
+Fixed restaurant_info() so that it reads query string args correctly.
+
+Fixed <script> tag in restaurant_info.html so that it defines
+zomatoApiKey, restaurantId, and welpReviews
+from the server for use by JS.
+
+Changed the executing structure of welp.js
+so that welp.js is included in every template that needs JS
+and the JS chooses which main function to execute
+based on the current URL.
+
+When /restaurant_info is opened from /index,
+/index passes the restaurant data to it directly,
+but if /restaurant_info is loaded on its own,
+it reloads the restaurant data from Zomato's /restaurant API
+using the restaurantId.
+
+Both RestaurantsPageModule() and RestaurantInfoPageModule()
+both return a main() method, which is run when that page is loaded.
+
+=======================================================
+khyberS -- 2018-01-11 15:35:43
+
+Got the Getty image API to partially work.
+It sets some of the images if Zomato doesn't supply them,
+but a bunch still return 403 Forbidden,
+and I'm not sure why.
+
+I added the getRestaurantImgUrl(restaurant) function
+above restaurantToDiv(), which returns a Promise of the imgUrl,
+either restaurant.featured_image or restaurant.thumb if they exist,
+or the imgUrl from Getty if they don't exist.
+The restaurant.cuisines field is used for the Getty phrase.
+
+=======================================================
+khyberS -- 2018-01-11 21:05:43
+
+Fixed login().
+Before it logged in all usernames and passwords before checking them,
+now it works correctly.
+
+Fixed the Getty image search API calls to limit them to 5 per second
+so that no errors are returned.
+
+The Getty API key is also passed to the JS in the same way as the Zomato API key.
+Everyone must put their key in the api/secrets.json file,
+modeled after secrets_template.json.
+
+However, Getty seems to be returning images that have nothing to do
+with the search phrase, which I set (line 786 in getRestaurantImgUrl())
+to restaurant.cuisine + " Food".
+Maybe I'm making the request wrong, or maybe the Getty search isn't that good.
+
+=======================================================
+khyberS -- 2018-01-11 22:18:06
+
+Added gettyApiKey definition in restaurant_info.html.
+
+=======================================================
+tiffanyM -- 2018-01-04 22:33
+
+Added restaurant info to the page
+
+=======================================================
+karinaI -- 2018-01-12 00:39
+
+Improved the image positioning and behavior in the index.html 
+panels, worked on the frontend of the restaurant_information pages.
+
+=======================================================
+khyberS -- 2018-01-12 06:10:18
+
+Made the More Restaurants button at the bottom of the page bigger,
+and now when you click on it and another row is added,
+it scrolls down automatically.
+
+Partially fixed the Getty API calls.
+Now I'm searching correctly by the restaurant.name,
+so it gets a slightly more accurate picture
+and not all the same pictures.
+However, some restaurants still don't have any pictures (from Getty),
+and the pictures still aren't too relevant.
+
+We should just scrape Google's image search.
+It's much, much better in terms of relevance,
+and often actually shows a picture of the restaurant.
+However, since google.com/search is not an API
+and isn't CORS enabled,
+we must scrape it in Python and then have the JS
+make an AJAX call to our server for it.
+
+Fixed some mistakes in the CSS.
+For the #img height and width in restaurant_info.css,
+it was entered wrong (in quotes), but I actually commented it out
+completely, since if there's no image, setting a size
+creates a big empty box, instead of just nothing if no size is specified.
+
+Added id="img" to the <img> element in restaurant_info.html,
+so that it can be selected correctly from the JS.
+
+Fixed restaurant.cuisine to restaurant.cuisines in addInfo(),
+which I also renamed to addRestaurantInfo().
+
+=======================================================
+karinaI -- 2018-01-12 08:39
+
+Fixed the image size and position in restaurant_info.cs
+
+=======================================================s
+khyberS -- 2018-01-12 08:17:59
+
+Now the restaurants partially scroll into view once loaded,
+since before the user might not have known they loaded yet
+without scrolling down.
+
+Fixed the size of the image in /restaurant_info
+using JS instead of CSS,
+so it only sets the size if there is an image,
+meaning no large, empty box is ever shown,
+but the image, when present, is never too large.
+
+=======================================================
+khyberS -- 2018-01-12 15:30:28
+
+Fixed the geolocation and IP address location bug.
+Now it successfully uses the IP address
+when the GPS doesn't work or is blocked by the user.
+
+=======================================================
+khyberS -- 2018-01-12 18:36:11
+
+Added the GET or POST /google_image_search?query= API route,
+which returns a JSON array of image URLs for the query.
+Google's image search is much better than Getty's,
+and it has no rate limits, and Google is faster.
+
+I haven't incorporated it into welp.js
+to replace the Getty stuff yet.
+I'm doing that next.
+
+=======================================================
+khyberS -- 2018-01-13 18:31:47
+
+Changed the Google image search requests to use cors-anywhere,
+a dedicated CORS server, instead of our own API route in Flask.
+
+This is because using our own Flask server is too slow
+because Flask can't do asynchronous requests,
+so it has to wait for the whole Google request
+before starting the next request.
+By using a dedicated CORS server like cors-anywhere,
+we can still make CORS requests to google.com,
+which doesn't allow CORS requests,
+and at the same time, still do async requests,
+meaning the latency is still the same,
+but the throughput is much, much higher.
+
+I still left the Python code for this in case,
+but we should use the cors-anywhere version,
+since it's so much faster.
+
+=======================================================
+khyberS -- 2018-01-13 22:06:55
+
+Now all the Google image URLs are tried until one works,
+because a few of them are corrupt URLs and don't display.
+
+=======================================================
+khyberS -- 2018-01-14 00:02:29
+
+Made the Submit button disabled if the passwords don't match
+on the create account page.
+A message saying the passwords don't match also pops up.
+
+=======================================================
+khyberS -- 2018-01-14 00:10:14
+
+When you create a new account, it logs you in right away
+without you having to enter your info in the login page.
+
+=======================================================
+khyberS -- 2018-01-14 00:37:52
+
+Now /restaurant_info page loads Google image as backup, too.
+If the backup has already been loaded in /index,
+it uses that cached URL, or else it fetches a new one from Google
+and keeps trying until it succeeds.
+
+Also refactored this Google image stuff into the RestaurantImageModule().
+
+=======================================================
+khyberS -- 2018-01-14 00:45:49
+
+Removed the Getty dependency (optional now).
+The GettyModule() still exists but is never called,
+and the API key would only be required if it's called.
+On the Python side, the code handles there being or not being
+a Getty API key in secrets.json.
+The Getty fields have been removed from secrets_template.json.
+
+=======================================================
+khyberS -- 2018-01-14 01:41:19
+
+Started adding code for adding a new review (all untested).
+
+Wrote the JS for sending the AJAX request to add the new review,
+and for adding the review to the DOM,
+but not for extracting the review from the form.
+It also checks if the user is logged in before adding the new review.
+
+Didn't write the HTML for the form yet.
+
+Wrote the Flask route /add_review,
+which takes the POSTed form data and calls database.add_review().
+I'm not sure if the user parameter is supposed to be the uid or username.
+Right now, I supplied the username.
+The route also checks that the user is logged in first.
+
+=======================================================
+khyberS -- 2018-01-14 07:00:51
+
+Got Use Zipcode and Use Current Location to work.
+
+For the Google Geocoding API, we need an API key,
+so I added one used by the JS and defined in secrets.json.
+
+Now, the apiKeys global object available to the JS
+is just a copy of secrets.json,
+so adding new keys should be very easy.
+
+For the Use Zipcode button, I changed the normal submit action
+to a custom onsubmit JS function that uses the zipcode instead of GPS/IP address.
+
+But the zipcode input box and the zipcode and current location buttons
+in one div, which CSS is applied to (instead of just the form like before).
+
+Added a resetRestaurants() function that removes all the current restaurants
+and reloads the initial (20) ones.
+This is used when the zipcode is changed or the current location is used again,
+because a different location means different restaurants must be shown.
+To do this, restaurants is re-initialized,
+and restaurantList.reset() is called.
+
+Added a reset() method to newRestaurantList(),
+which removes the div (to be garbage collected),
+makes a new one, and resets the indices/count.
+This is called by resetRestaurants().
+
+Found out that the cors-anywhere server
+sometimes responds with a 429 Too Many Requests.
+In this case, we fall back to our own CORS server
+for the Google image search.
+It's painfully slow, but it's better than nothing.
+
+=======================================================
+khyberS -- 2018-01-14 07:12:11
+
+Updated the secrets_template.json with the modified format
+and the added Google Geocoding API key.
+
+=======================================================
+khyberS -- 2018-01-14 07:31:31
+
+Fixed a bug in /restaurant_info where the restaurant data
+wasn't reloaded when the page was loaded fresh (not from /index).
+
+=======================================================
+khyberS -- 2018-01-14 07:32:50
+
+Added some reviews on Zomato for us to demo.
+If you type in 10282 and go to Dirty Bird's or Amore Pizza Restaurant,
+you can see the reviews I added.
+
+=======================================================
+tiffanyM -- 2018-01-15 18:47
+
+Added profile functions to app.py
+Created profile.html
+Will display the restaurant panels like index.html given
+the restaurant IDs
+Modified the database structure to use username, not id
+
+===============================================================
+liuY -- 2018-01-16 2:00
+
+Finished README.md
+Enabled the creation of empty/sample database
+    Updated requirements.txt to reflect changes to requirements
+
+=======================================================
+khyberS -- 2018-01-16 15:02:20
+
+Fixed zipcode bug so now you can search any zipcode
+any number of times.  For example, the "zipcode" asdfgh
+is near the Khyber Pass in Pakistan.
+
+=======================================================
+karinaI -- 2018-01-16 21:34
+
+-Updated the buttons on index.html
+  *bug: the carousel does not always move on 
+	 google chrome, but it works on Safari
+
+-Worked on making restaurant_info.html more appealing
+
+-Added js functions to add responsiveness to the
+location, rating, and cuisine sections
+  *bug: .show().slideDown() has .show() functionality
+  Stackoverflow recommended setting the content 
+  display to "none" but that did not work either
+
+- Note:
+  "Uncaught TypeError: V[g].exec is not a function" error
+is caused combination of bootstrap.js and the angular
+ bootstrap ui library. Suggested fix is to remove
+"unnecessary bootstrap.js" -- this might be the 
+source of the slideDown() bug too 
+
+To do:
+- work on the js animations 
+- GLAMify the restaurant_info page
+- Add in reviews  
+
+=======================================================
+tiffanyM -- 2018-01-16 22:08
+
+added list of restaurants for the profile to js so it
+can create the panels on the profile page
+
+=======================================================
+khyberS -- 2018-01-17 13:08
+
+Extending Object.prototype with an enumerable property
+breaks jQuery, since it uses (for ... in) loops on Object.prototype
+and assumes no properties have been added
+because it doesn't check with Object#hasOwnProperty().
+
+This is what broke the Bootstrap Carousel, since it uses jQuery,
+as well as a bunch of other stuff.
+
+I removed this and just make a normal function
+bound to Object, just not Object.prototype.
+
+I can however, use Object.defineProperty()
+to add a non-enumerable property to Object.prototype,
+and this won't break things.
+
+=======================================================
+karinaI -- 2018-01-17 13:16
+
+UPDATE: Carousel was throwing an error because of
+object extension in welp.js
+
+- Replaced .show() and .slideDown() with Bootstrap
+collapse (the js is already handled)
+- To do: get the #loc div to work in the same way 
+that the rating and cuisine divs work (it's not
+returning the location as of now)
+=======================================================
+karinaI -- 2018-01-17 13:16
+
+UPDATE: location wasn't showing becuase of the css
+line: display: none;
+
+- Worked on collapse panels in restaurant_info.html
+=======================================================
+tiffanyM -- 2018-01-17 20:13
+
+Added ability to check whether or not a restaurant is 
+favorited for a user
+
+Fixed the database setup and testing
+
+=======================================================
+tiffanyM -- 2018-01-17 13:09
+
+Added flash messages to layout.html
+
+=======================================================
+tiffanyM -- 2018-01-17 20:51
+
+Added button on restaurant_info to favorite the restaurant
+Created routes in app.py to handle this
+
+LATER:
+Add a remove button for favorited restaurants
+Connect the profile to JS to display the favorite restaurants
+
+=======================================================
+karinaI -- 2018-01-19 13:17
+
+Added review form, worked on styling restaurant_info.css
+
+=======================================================
+leoL -- 2018-01-19 13:18
+
+Made images on index.html responsive to window resizing
+
+=======================================================
+karinaI -- 2018-01-20 16:35
+
+Worked on formatting restaurant_info
+       -fixed the positionin (col-md-9 was causing the
+       75% width issue
+Added ratings option
+      - used the cssscript.com template
+
+Made finishing touches in index.html
+To do: reverse rating star order
+
+=======================================================
+khyberS -- 2018-01-19 20:39:09
+
+Refactored function in RestaurantsPageModule() into the new RestaurantsSubPageModule():
+    restaurantToDiv(),
+    openRestaurantInfoInNewPage(),
+    createRestauantList(), a factory constructor for newRestaurantList()
+
+Modified restaurantToDiv() so that if {empty: true} is passed as the restaurant,
+it creates an "empty" restaurant that can later be filled.
+
+Created ProfilePageModule(),
+which runs on profile.html and loads that user's favorited restaurants,
+using the same RestaurantsSubPageModule() as in index.html
+to load the restaurants.
+
+profile.html should now load favorited restaurants correctly.
+I tested in on the JS side;
+as long as the Python works correctly w/ the DB and everything, it should work.
+
+For testing purposes, a few favorited restaurants are automatically loaded in the JS,
+but we can remove this later once users have favorited restaurants in the DB.
+
+When you click the menu link for a restaurant,
+it opens in a new tab (target="_blank").
+
+addNewReview(), the JS function that sends the new review form to the server w/ AJAX,
+is mostly done, but still unfinished.
+It does the review_text right, but not the rating and review_title yet.
+
+When a user not logged somehow tried to add a review,
+alert() is called with an error message.
+We can try to make this look nicer, but it shouldn't happen anyways
+unless the JS and server get out of sync.
+
+TODO and FIXME: (I added FIXMEs and TODOs in the code for these things)
+
+    Rating Stars:
+        I put the stars HTML into a Jinja loop to be more concise.
+        It still works the same as before.
+
+        However, when you click on a star, they turn on from right to left,
+        which I think is the wrong direction.
+
+        I tried reversing the loop so that the stars are labeled in the HTML
+        from 1 to 5 instead of 5 to 1, but nothing changed.
+        I'm not sure how the CSS works for the stars,
+        so can you check it out Karina?
+
+    Flashed messages are covered by the Welp logo.
+
+    We should remove the "More Restaurants" button on profile.html.
+
+    align in restaurant_info.css is not a CSS property.
+    I'm not sure what it was supposed to be, align-content, align-items?
+
+    <div> cannot be inside <p> in restaurant_info.html.
+
+    I'll fix this:
+    FIXME The background image url is not always false when there's an error,
+    FIXME so sometimes the image doesn't load.
+
+=======================================================
+khyberS -- 2018-01-21 02:38:52
+
+Changed add_favorite() to a REST API that adds the restaurant as a favorite
+and returns a status of 200 if successful or 204 if there's an error.
+This allows us to use AJAX for when a user favorites a restaurant,
+meaning it appears instantaneous to the user and there is no slow page reload.
+
+Finished the "Add to Favorites" button,
+which is now a single button that triggers JS
+that POSTs a request to /add_favorite.
+
+In the <div id="addFavoriteRestaurantDiv">,
+there are two elements, an "Add to Favorites" button
+and a <p> alt text that tells the user
+they already favorited this restaurant.
+
+Depending on the `favorited` value passed to Jinja,
+one is set to style="display: none;".
+When "Add to Favorites" is clicked,
+the JS switches the `display: none`s,
+and if the server returns a 204 failure,
+it switches them back again.
+
+Moved carousel <script> in index.html to welp.js.
+
+=======================================================
+tiffanyM -- 2018-01-21 16:52
+
+Added function to get all rated restaurants from the database
+- Used to calculate the overall rating 
+- Tried to merge our ratings with the Zomato ratings
+- Added to JS, but started breaking other things -- Khyber fixed
+
+=======================================================
+tiffanyM -- 2018-01-23 11:40
+
+Added titles to the pages
+    - needed to add it to the query string for restaurant_info
+Added remove favorited restaurant functionality
+    - Added function to database.py
+    - Added new route
+Added delete button for users to remove their old reviews 
+    - Added route to factilitate this
+    - will be implemented by JS
+
+=======================================================
+khyberS -- 2018-01-23 02:45:13
+
+Fixed all the rating stuff as far as I can tell.
+The Welp and Zomato ratings are integrated on
+the /index and /restaurant_info pages.
+
+Added a Search field so you can search for specific or types of restaurants.
+
+Fixed the review form so that it adds the review to the DB
+and it shows up under the reviews tab immediately.
+However, the rating and review title aren't quite done,
+so I hardcoded those to 5 and "Test" for now.
+
+=======================================================
+khyberS -- 2018-01-23 02:56:07
+
+Centered the flashed messages so they don't get cut off by the Welp logo.
+
+Got rid of useless "More Restaurants" button in /profile.
+
+=======================================================
+ionkinaK -- 2018-01-23 09:55
+
+Fixed the images on index.html (they were zoomed in)
+Fixed the buttons on index.html
+Fixed the rating stars in restaurant_info.html
+(they were backwards)
+
+Fixed the buttons on restautant_info.html
+
+=======================================================
+khyberS -- 2018-01-23 11:46:58
+
+Got the add and remove favorite buttons to work.
+
+=======================================================
+khyberS -- 2018-01-23 12:29:20
+
+Images always load, even for background images that act weird (Palm Restaurant).
+This is done by using an <img> element and setting img.onerror and img.onload,
+and then transferring this url to the background img.
+
+Made stars show up for 0 rating.
+
+=======================================================
+ionkinaK -- 2018-01-23 13:47
+
+-Made py (and the js) fxns to display star ratings based
+on zomato rating in index.html and restaurant_info.html
+-Worked on image/ input frontend
+
+=======================================================
+leoL -- 2018-01-23 13:39
+
+More work on database.py:
+    Added functions:
+        remove_review:
+	    remove a user's review for a restaurant
+        update_review:
+	    update a user's review for a restaurant
+        get_review:
+	    retrieve a user's review for a restaurant
+	has_review:
+	    check if a user has made a review for a restaurant
+    Updated add_review:
+        Now enforces one review per user per restaurant
+
+=======================================================
+khyberS -- 2018-01-23 14:02:24
+
+Add new review now uses the correct review title and rating from the stars.
+
+=======================================================
+khyberS -- 2018-01-23 15:09:43
+
+Got deleting a review to work and adding a review to be restricted to 1 per user.
+
+=======================================================
+khyberS -- 2018-01-23 15:19:35
+
+Add review form is hidden when you add a review and restored when you delete it.
+
+Default favorited restaurants used for testing are removed.
+
+=======================================================
+khyberS -- 2018-01-23 15:32:42
+
+No Saved Restaurants shown on profile page instead of
+No More Restaurants Available like on index page.
+
+=======================================================
+tiffanyM -- 2018-01-24 00:53
+
+Edited and published the demo video
+    - Added to the README.txt
+Updated the design.pdf 
+Emailed the API info
+=======================================================
+ionkinaK -- 2018-01-24 1:03
+
+Edited site map in design doc to match current version
+of Welp 
+
+=======================================================
+khyberS -- 2018-01-24 03:15:19
+
+Explained more in How Does It Work? in the README
+and added a bunch of pictures of Welp in action.
+
+Deleted rating_index.py, which we didn't use.
+
+=======================================================

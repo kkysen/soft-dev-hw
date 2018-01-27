@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block title %}
+Profile 
+{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+{% endblock %}
+
+{% block preJS %}
+  <script>
+      const favoriteRestaurantIds = false || {{json.dumps(restaurant_ids)|safe}};
+  </script>
+{% endblock %}
+
+{% block body %}
+  <center>
+    <h1> Here are your saved restaurants! </h1>
+  </center>
+
+
+  <div id="restaurants"></div>
+
+{#  <center>#}
+{#    <button id="moreRestaurants">More Restaurants</button>#}
+{#  </center>#}
+
+
+{% endblock %}

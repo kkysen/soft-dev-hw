@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}
+  - Customize
+{% endblock %}
+
+{% block body %}
+  {{ br(1) }}
+  <h2>Customize</h2>
+  {{ br(1) }}
+
+  <p>
+    Now that you've answered 5 questions correctly, you can customize the types of questions
+    you'll get.
+  </p>
+  {{ br(1) }}
+  <div class="mx-auto" style="width: 390px;">
+    <!--suppress HtmlUnknownTarget -->
+    <form action="/set_options" method="post" id="options">
+      <div class="form-group">
+        <label for="difficulty"> Difficulty:</label>
+        {{ br(1) }}
+        <select class="form-control" id="difficulty" name="difficulty">
+          <option selected>Default</option>
+          {% for difficulty in difficulties %}
+            <option>{{ difficulty }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      {{ br(1) }}
+      <div class="form-group">
+        <label for="type">Type:</label>
+        {{ br(1) }}
+        <select class="form-control" id="type" name="type">
+          <option selected>Default</option>
+          {% for type in types %}
+            <option> {{ type }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      {{ br(1) }}
+      <div class="form-group">
+        <label for="category">Category:</label>
+        {{ br(1) }}
+        <select class="form-control" id="category" name="category">
+          <option selected>Default</option>
+          {% for category in categories %}
+            <option> {{ category }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      {{ br(1) }}
+      <center>
+      <button type="submit" class="btn btn-primary" name="done" value="Done" form="options">
+        Customize!
+      </button>
+    </center>
+    </form>
+  </div>
+{% endblock %}

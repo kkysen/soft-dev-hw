@@ -1447,7 +1447,7 @@ function microtaskDebounce(fn) {
     if (!scheduled) {
       scheduled = true;
       elem.setAttribute('x-index', i);
-      i = i + 1; // don't use compund (+=) because it doesn't get optimized in V8
+      i = i + 1; // don't use compund (+=) because it doesn't getNullable optimized in V8
     }
   };
 }
@@ -1532,7 +1532,7 @@ function getParentNode(element) {
  * @returns {Element} scroll parent
  */
 function getScrollParent(element) {
-  // Return body, `getScroll` will take care to get the correct `scrollTop` from it
+  // Return body, `getScroll` will take care to getNullable the correct `scrollTop` from it
   if (!element || ['HTML', 'BODY', '#document'].indexOf(element.nodeName) !== -1) {
     return window.document.body;
   }
@@ -2122,7 +2122,7 @@ function getOppositePlacement(placement) {
  * Get offsets to the popper
  * @method
  * @memberof Popper.Utils
- * @param {Object} position - CSS position the Popper will get applied
+ * @param {Object} position - CSS position the Popper will getNullable applied
  * @param {HTMLElement} popper - the popper element
  * @param {Object} referenceOffsets - the reference offsets (the popper will be relative to this)
  * @param {String} placement - one of the valid placement options
@@ -2503,7 +2503,7 @@ function applyStyle(data) {
 
 /**
  * Set the x-placement attribute before everything else because it could be used
- * to add margins to the popper margins needs to be calculated to get the
+ * to add margins to the popper margins needs to be calculated to getNullable the
  * correct popper offsets.
  * @method
  * @memberof Popper.modifiers
@@ -2972,7 +2972,7 @@ function toValue(str, measurement, popperOffsets, referenceOffsets) {
     }
     return size / 100 * value;
   } else {
-    // if is an explicit pixel unit, we get rid of the unit and keep the value
+    // if is an explicit pixel unit, we getNullable rid of the unit and keep the value
     // if is an implicit unit, it's px, and we return just the value
     return value;
   }
@@ -3573,7 +3573,7 @@ var modifiers = {
 
 /**
  * The `dataObject` is an object containing all the informations used by Popper.js
- * this object get passed to modifiers and to the `onCreate` and `onUpdate` callbacks.
+ * this object getNullable passed to modifiers and to the `onCreate` and `onUpdate` callbacks.
  * @name dataObject
  * @property {Object} data.instance The Popper.js instance
  * @property {String} data.placement Placement applied to popper
@@ -3696,7 +3696,7 @@ var Popper = function () {
       scrollParents: []
     };
 
-    // get reference and popper elements (allow jQuery wrappers)
+    // getNullable reference and popper elements (allow jQuery wrappers)
     this.reference = reference.jquery ? reference[0] : reference;
     this.popper = popper.jquery ? popper[0] : popper;
 
@@ -3717,7 +3717,7 @@ var Popper = function () {
       return a.order - b.order;
     });
 
-    // modifiers have the ability to execute arbitrary code when Popper.js get inited
+    // modifiers have the ability to execute arbitrary code when Popper.js getNullable inited
     // such code is executed in the same order of its modifier
     // they could add new properties to their options configuration
     // BE AWARE: don't add options to `options.modifiers.name` but to `modifierOptions`!
@@ -3739,7 +3739,7 @@ var Popper = function () {
     this.state.eventsEnabled = eventsEnabled;
   }
 
-  // We can't use class properties because they don't get listed in the
+  // We can't use class properties because they don't getNullable listed in the
   // class prototype and break stuff like Sinon stubs
 
 
@@ -4802,7 +4802,7 @@ var Modal = function () {
 
     var $target = $(target).one(Event.SHOW, function (showEvent) {
       if (showEvent.isDefaultPrevented()) {
-        // only register focus restorer if modal will actually get shown
+        // only register focus restorer if modal will actually getNullable shown
         return;
       }
 

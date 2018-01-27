@@ -125,7 +125,7 @@ def auth_or_signup(db_user_supplier):
     return reroute_to(home)
 
 
-@app.route('/signup', methods=['get', 'post'])
+@app.route('/signup', methods=['getNullable', 'post'])
 def signup():
     # type: () -> Response
     return auth_or_signup(db.add_user)
@@ -135,7 +135,7 @@ def signup():
 logged_in = preconditions(login, is_logged_in)  # type: Router
 
 
-@app.route('/auth', methods=['get', 'post'])
+@app.route('/auth', methods=['getNullable', 'post'])
 def auth():
     # type: () -> Response
     """
@@ -159,7 +159,7 @@ def home():
                                )
 
 
-@app.route('/story', methods=['get', 'post'])
+@app.route('/story', methods=['getNullable', 'post'])
 @logged_in
 @preconditions(home, post_only, form_contains('story'))
 def read_or_edit_story():
@@ -191,7 +191,7 @@ def read_or_edit_story():
                                    edits=sorted(db.get_edits(story), key=Edit.order))
 
 
-@app.route('/edit', methods=['get', 'post'])
+@app.route('/edit', methods=['getNullable', 'post'])
 @logged_in
 @preconditions(read_or_edit_story, post_only,
                session_contains(STORY_KEY), form_contains('text'))
@@ -224,7 +224,7 @@ def create_new_story():
     return render_template('create_new_story.jinja2')
 
 
-@app.route('/new_story', methods=['get', 'post'])
+@app.route('/new_story', methods=['getNullable', 'post'])
 @logged_in
 @preconditions(create_new_story, post_only, form_contains('storyname', 'text'))
 def add_new_story():
@@ -252,7 +252,7 @@ def add_new_story():
     return reroute_to(edited_story, story, edit, True)
 
 
-@app.route('/edited_story', methods=['get', 'post'])
+@app.route('/edited_story', methods=['getNullable', 'post'])
 @logged_in
 @preconditions(home, lambda: False)
 @bind_args(home)

@@ -50,7 +50,7 @@ def verify_password(plain_password, hashed_password):
     # type: (str | unicode) -> bool
     """Verify if plain password matches the hashed password."""
     return password_hasher.verify(plain_password, hashed_password)
-
+    
 
 User = namedtuple('User', ['id', 'username'])  # type: (int, unicode)
 User.__repr__ = lambda self: 'User(%s, %s)' % self

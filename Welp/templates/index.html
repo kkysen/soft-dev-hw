@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block head %}
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+{% endblock %}
+
+{% block body %}
+
+  <div id="welpcarousel" class="carousel slide" data-ride="carousel" data-pause="hover">
+    <ol class="carousel-indicators">
+      <li data-target="#welpcarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#welpcarousel" data-slide-to="1"></li>
+      <li data-target="#welpcarousel" data-slide-to="2"></li>
+    </ol>
+    <center>
+      <div class="carousel-inner" role="listbox">
+        <div class="item active">
+          <img id="top-header" src="img/hungry.jpeg">
+          <div class="header-text hidden-xs">
+            <div class="col-md-12 text-center">
+              <h1> Hungry?</h1> <br>
+            </div>
+          </div>
+        </div> <!-- end active -->
+        <div class="item">
+          <img id="top-header2" src="img/thirsty.jpeg">
+          <div class="header-text hidden-xs">
+            <div class="col-md-12 text-center">
+              <h1> Thirsty?</h1> <br>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img id="top-header3" src="img/index1.jpeg">
+          <div class="header-text hidden-xs">
+            <div class="col-md-12 text-center">
+              <h1> We've got just the thing. </h1><br>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </center>
+
+
+  <div id="searching">
+    <center>
+      <input type="text" placeholder="Search for Restaurants" id="searchField">
+      <button class="btn-primary" id="searchButton">Search</button>
+      <br>
+      <input type="text" placeholder="Zipcode" id="zipCode">
+      <button class="btn-primary" id="enterZipCode">Use Zipcode</button>
+      <br>
+      <button class="btn-primary" id="locate">Use Current Location</button>
+    </center>
+  </div>
+
+
+  </div> <!-- end slider -->
+
+
+
+
+
+  <br> <br>
+  <center>
+    <h1> Restaurants Near You </h1>
+  </center>
+
+
+  <div id="restaurants"></div>
+
+  <center>
+    <button class="btn-primary" id="moreRestaurants">More Restaurants <br></button>
+  </center>
+
+
+{% endblock %}

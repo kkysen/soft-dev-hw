@@ -196,7 +196,7 @@ def set_contains(set_, values, calling_func=None):
     return precondition
 
 
-T = Type['T']
+T = Type['CtorArgs']
 
 
 def dict_contains(dictionary, keys, calling_func=None):

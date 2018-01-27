@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}
+  - Questions
+{% endblock %}
+
+{% block body %}
+
+  {% include "flash.html" %}
+
+  Question: {{ question.question }}
+  {{ br(2) }}
+  Answer choices:
+  {{ br(2) }}
+  <!--suppress HtmlUnknownTarget -->
+  <form action="/check_answer" method="post">
+    {% for choice in question.choices %}
+      <div class="row">
+        <label>
+          <input type="submit" name="answer" readonly value="{{ choice|safe }}">
+        </label>
+      </div>
+    {% endfor %}
+  </form>
+
+  <center>
+    <audio controls autoplay>
+      <source src="{{ question.audio_path }}">
+      Your browser does not support the audio tag for wav files.
+    </audio>
+
+    {{ br(2) }}
+    <h3>You have {{ user.points }} points!</h3>
+  </center>
+{% endblock %}

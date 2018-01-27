@@ -1,0 +1,36 @@
+.center {
+    display: table;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+div {
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+#container {
+    -webkit-border-radius: 4px 3px 6px 10px;
+    -moz-border-radius: 4px 3px 6px 10px;
+    border-radius: 4px 3px 6px 10px;
+}
+
+p {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+#congrats-text {
+    text-align: center;
+}
+
+.lyrics {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.lyrics h3 {
+    padding-left: 60px;
+}

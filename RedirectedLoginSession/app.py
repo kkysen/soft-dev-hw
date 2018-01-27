@@ -68,7 +68,7 @@ def signup():
     return render_template('signup.jinja2', **ctx)
 
 
-@app.route('/add_user', methods=['get', 'post'])
+@app.route('/add_user', methods=['getNullable', 'post'])
 @preconditions(signup, post_only, valid_account_form)
 def add_user():
     username, password = get_account()
@@ -87,7 +87,7 @@ def authenticate(username, password):
     return None
 
 
-@app.route('/auth', methods=['get', 'post'])
+@app.route('/auth', methods=['getNullable', 'post'])
 @preconditions(login, post_only, valid_account_form)
 def auth():
     # type: () -> Response
